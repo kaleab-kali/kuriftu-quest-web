@@ -25,23 +25,12 @@ This is a starter template using the following stack:
 - Forms - [React Hook Form](https://ui.shadcn.com/docs/components/form)
 - Linting - [ESLint](https://eslint.org)
 - Formatting - [Prettier](https://prettier.io)
-- Pre-commit hook - [Husky](https://typicode.github.io/husky/)
 
-## Pages
-
-| Pages                                                                  | Specifications                                                                   |
-| :--------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| [Signup](https://react-shadcn-dashboard-starter.vercel.app/login)      | Custom auth.                                                                     |
-| [Dashboard](https://react-shadcn-dashboard-starter.vercel.app/)        | Cards with recharts graphs for analytics with dark mode ✅.                      |
-| [Students](https://react-shadcn-dashboard-starter.vercel.app/students) | Tanstack tables with students details with server side searching, pagination etc |
-| [404](https://react-shadcn-dashboard-starter.vercel.app/404)           | Not Found Page                                                                   |
-| -                                                                      | -                                                                                |
 
 ## Getting Started
 
-Follow these steps to clone the repository and start the development server:
+Follow these steps to start the development server:
 
-- `git clone https://github.com/Kiranism/react-shadcn-dashboard-starter.git`
 - `npm install`
 - `npm run dev`
 
