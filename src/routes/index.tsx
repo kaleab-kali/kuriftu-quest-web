@@ -1,5 +1,7 @@
+import ChallengePage from '@/pages/challenges';
 import FormPage from '@/pages/form';
 import NotFound from '@/pages/not-found';
+import RewardPage from '@/pages/rewards';
 import Wrapper from '@/providers/Wrapper';
 import { Suspense, lazy } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
@@ -21,13 +23,13 @@ export default function AppRouter() {
     {
       path: '/',
       element: (
-      <Wrapper>
-        <DashboardLayout>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      </Wrapper> 
+        <Wrapper>
+          <DashboardLayout>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </Wrapper>
       ),
       children: [
         {
@@ -37,6 +39,14 @@ export default function AppRouter() {
         {
           path: 'user',
           element: <UserPage />
+        },
+        {
+          path: 'reward',
+          element: <RewardPage />
+        },
+        {
+          path: 'challenge',
+          element: <ChallengePage />
         },
         {
           path: 'user/details',

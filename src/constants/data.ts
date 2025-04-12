@@ -14,6 +14,18 @@ export const navItems: NavItem[] = [
     label: 'User'
   },
   {
+    title: 'Rewards',
+    href: '/reward',
+    icon: 'billing',
+    label: 'Reward'
+  },
+  {
+    title: 'Challenges',
+    href: '/challenge',
+    icon: 'billing',
+    label: 'Challenge'
+  },
+  {
     title: 'Logout',
     href: '#',
     icon: 'login',
