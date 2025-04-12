@@ -26,6 +26,12 @@ export const navItems: NavItem[] = [
     label: 'Challenge'
   },
   {
+    title: 'Tiers',
+    href: '/tier',
+    icon: 'post',
+    label: 'Tier'
+  },
+  {
     title: 'Logout',
     href: '#',
     icon: 'login',

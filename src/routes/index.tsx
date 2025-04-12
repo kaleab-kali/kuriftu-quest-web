@@ -2,6 +2,7 @@ import ChallengePage from '@/pages/challenges';
 import FormPage from '@/pages/form';
 import NotFound from '@/pages/not-found';
 import RewardPage from '@/pages/rewards';
+import TierPage from '@/pages/tiers';
 import Wrapper from '@/providers/Wrapper';
 import { Suspense, lazy } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
@@ -47,6 +48,10 @@ export default function AppRouter() {
         {
           path: 'challenge',
           element: <ChallengePage />
+        },
+        {
+          path: 'tier',
+          element: <TierPage />
         },
         {
           path: 'user/details',

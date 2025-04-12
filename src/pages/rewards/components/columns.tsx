@@ -14,6 +14,26 @@ export const columns: ColumnDef<Reward>[] = [
     )
   },
   {
+    accessorKey: 'image_url',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Image" />
+    ),
+    cell: ({ row }) => {
+      const imageUrl = row.getValue('image_url');
+      return (
+        <div className="h-12 w-12 overflow-hidden rounded-md border">
+          {typeof imageUrl === 'string' && (
+            <img
+              src={imageUrl}
+              alt="Reward"
+              className="h-full w-full object-cover"
+            />
+          )}
+        </div>
+      );
+    }
+  },
+  {
     accessorKey: 'description',
     header: 'Description'
   },
