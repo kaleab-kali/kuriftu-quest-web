@@ -220,7 +220,7 @@ export default function DataTable<TData extends { id: string }, TValue>({
                                     </div>
                                     <div className="flex items-center gap-2">
                                       <QRCodeComponent
-                                        value={subChallenge.qr_code_id ?? ''}
+                                        value={subChallenge.qr_code}
                                       />
                                     </div>
                                   </div>
