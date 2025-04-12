@@ -2,6 +2,13 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Challenge } from '@/types/challenges';
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/shared/data-table-column-header';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import { SubChallengeForm } from './subChallenge-form';
+import { Modal } from '@/components/ui/modal';
+import { useState } from 'react';
+import { AddSubChallengeButton } from './subChallengeButton';
+//import { openSubChallengeForm } from '@/components/shared/data-table';
 
 export const columns: ColumnDef<Challenge>[] = [
   {
@@ -42,5 +49,11 @@ export const columns: ColumnDef<Challenge>[] = [
         {row.getValue('is_active') ? 'Active' : 'Inactive'}
       </Badge>
     )
+  },
+  {
+    id: 'add_sub_challenges',
+    header: 'Add Sub-Challenges',
+    cell: ({ row }) => <AddSubChallengeButton challenge={row.original} />
   }
 ];
+

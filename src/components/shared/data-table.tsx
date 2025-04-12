@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import { SubChallengeForm } from '@/pages/challenges/components/subChallenge-form';
 import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
@@ -28,8 +29,10 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Modal } from '../ui/modal';
+import { Challenge } from '@/types/challenges';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
