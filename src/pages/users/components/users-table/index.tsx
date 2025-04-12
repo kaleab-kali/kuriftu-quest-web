@@ -1,4 +1,4 @@
-import DataTable from '@/components/shared/data-table';
+import  DataTable from '@/components/shared/data-table';
 import { columns } from './columns';
 import UserTableActions from './user-table-action';
 

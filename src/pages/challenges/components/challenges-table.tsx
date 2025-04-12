@@ -1,4 +1,4 @@
-import DataTable from '@/components/shared/data-table';
+import  DataTable from '@/components/shared/data-table';
 import { columns } from './columns';
 import ChallengeTableActions from './challenge-table-actions';
 import { Challenge } from '@/types/challenges';
