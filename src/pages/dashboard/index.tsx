@@ -2,7 +2,6 @@ import PageHead from '@/components/shared/page-head.jsx';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';

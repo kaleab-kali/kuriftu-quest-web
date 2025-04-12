@@ -15,7 +15,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { SubChallengeForm } from '@/pages/challenges/components/subChallenge-form';
 import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
@@ -30,13 +29,11 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Modal } from '../ui/modal';
-import { Challenge, SubChallenge } from '@/types/challenges';
-import QRCode from 'qrcode';
+import {  SubChallenge } from '@/types/challenges';
 import { QRCodeComponent } from '@/pages/challenges/components/QRCodeComponent';
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pageSizeOptions?: number[];
@@ -46,7 +43,7 @@ interface DataTableProps<TData, TValue> {
   subChallenges?: Record<string, SubChallenge[]>;
 }
 
-export default function DataTable<TData, TValue>({
+export default function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
   pageCount,
@@ -223,7 +220,7 @@ export default function DataTable<TData, TValue>({
                                     </div>
                                     <div className="flex items-center gap-2">
                                       <QRCodeComponent
-                                        value={subChallenge.qr_code}
+                                        value={subChallenge.qr_code_id ?? ''}
                                       />
                                     </div>
                                   </div>
