@@ -17,7 +17,7 @@ export default function UserDetailPage() {
   const offset = (page - 1) * pageLimit;
   const { data, isLoading } = useGetUsers(offset, pageLimit, country);
   const users = data?.users;
-  const totalUsers = data?.total_users; //1000
+  const totalUsers = data?.users.length || 1000; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const router = useRouter();
   if (isLoading) {
