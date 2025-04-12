@@ -26,26 +26,34 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  Row,
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Modal } from '../ui/modal';
-import { Challenge } from '@/types/challenges';
-
+import { Challenge, SubChallenge } from '@/types/challenges';
+import QRCode from 'qrcode';
+import { QRCodeComponent } from '@/pages/challenges/components/QRCodeComponent';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pageSizeOptions?: number[];
   pageCount: number;
+  onRowExpand?: (challengeId: string) => void;
+  renderSubComponent?: (row: Row<TData>) => React.ReactNode;
+  subChallenges?: Record<string, SubChallenge[]>;
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
   pageCount,
-  pageSizeOptions = [10, 20, 30, 40, 50]
+  pageSizeOptions = [10, 20, 30, 40, 50],
+  onRowExpand,
+  renderSubComponent,
+  subChallenges
 }: DataTableProps<TData, TValue>) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -165,19 +173,68 @@ export default function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && 'selected'}
+                    onClick={() => {
+                      if (row.getIsExpanded()) {
+                        row.toggleExpanded(false);
+                      } else {
+                        row.toggleExpanded(true);
+                        onRowExpand?.(row.original.id);
+                      }
+                    }}
+                    className="cursor-pointer"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() &&
+                    subChallenges?.[row.original.id] && (
+                      <TableRow className="bg-muted/50">
+                        <TableCell colSpan={columns.length}>
+                          <div className="p-4">
+                            <h4 className="mb-4 text-sm font-semibold">
+                              Sub-Challenges
+                            </h4>
+                            <div className="grid gap-4">
+                              {subChallenges?.[row.original.id]?.map(
+                                (subChallenge) => (
+                                  <div
+                                    key={subChallenge.id}
+                                    className="bg-background flex items-center justify-between rounded-lg p-3"
+                                  >
+                                    <div className="space-y-1">
+                                      <p className="text-sm font-medium">
+                                        {subChallenge.title}
+                                      </p>
+                                      <p className="text-muted-foreground text-sm">
+                                        {subChallenge.description}
+                                      </p>
+                                      <p className="font-mono text-sm">
+                                        {subChallenge.points} points
+                                      </p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <QRCodeComponent
+                                        value={subChallenge.qr_code}
+                                      />
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                </Fragment>
               ))
             ) : (
               <TableRow>

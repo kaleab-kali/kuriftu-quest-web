@@ -22,6 +22,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Challenge } from '@/types/challenges';
 import { supabaseClient } from '@/utils/apiClient';
+import { useState } from 'react';
+import { cloudinaryUpload } from '@/lib/cloudinary';
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -38,6 +40,9 @@ interface ChallengeFormProps {
 }
 
 export function ChallengeForm({ challenge, onSuccess }: ChallengeFormProps) {
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,13 +55,24 @@ export function ChallengeForm({ challenge, onSuccess }: ChallengeFormProps) {
     }
   });
 
+  const handleImageUpload = async (file: File) => {
+    setIsUploading(true);
+    try {
+      const url = await cloudinaryUpload(file);
+      form.setValue('image_url', url);
+      setPreviewImage(url);
+    } catch (error) {
+      form.setError('image_url', { message: 'Failed to upload image' });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (challenge) {
-        // Update existing challenge
         await supabaseClient.patch(`/challenges?id=eq.${challenge.id}`, values);
       } else {
-        // Create new challenge
         await supabaseClient.post('/challenges', values);
       }
       onSuccess();
@@ -144,9 +160,38 @@ export function ChallengeForm({ challenge, onSuccess }: ChallengeFormProps) {
           name="image_url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URL</FormLabel>
+              <FormLabel>Image</FormLabel>
               <FormControl>
-                <Input placeholder="Image URL" {...field} />
+                <div className="flex flex-col gap-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    disabled={isUploading}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setPreviewImage(URL.createObjectURL(file));
+                        handleImageUpload(file);
+                      }
+                    }}
+                  />
+                  {previewImage && (
+                    <div className="mt-2">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="h-16 w-16 rounded-md object-cover"
+                      />
+                    </div>
+                  )}
+                  {field.value && !previewImage && (
+                    <img
+                      src={field.value}
+                      alt="Current"
+                      className="h-32 w-32 rounded-md object-cover"
+                    />
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -170,8 +215,12 @@ export function ChallengeForm({ challenge, onSuccess }: ChallengeFormProps) {
           )}
         />
 
-        <Button type="submit" className="w-full">
-          {challenge ? 'Update Challenge' : 'Create Challenge'}
+        <Button type="submit" className="w-full" disabled={isUploading}>
+          {isUploading
+            ? 'Uploading...'
+            : challenge
+              ? 'Update Challenge'
+              : 'Create Challenge'}
         </Button>
       </form>
     </Form>

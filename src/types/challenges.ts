@@ -9,3 +9,13 @@ export interface Challenge {
   qr_code_id?: string;
   created_at: string;
 }
+export interface SubChallenge {
+id: string;
+  title: string;
+  description: string;
+  challenge_id: string;  // Reference to the parent challenge
+  points: number;
+  qr_code_id?: string;  // Optional QR code ID for the sub-challenge
+  created_at: string;
+  updated_at: string;
+}

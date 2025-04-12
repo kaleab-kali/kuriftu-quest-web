@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react';
 
 export const AddSubChallengeButton = ({ challenge }: { challenge: Challenge }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  console.log('Challenge:', challenge);
 
   return (
     <>
@@ -16,7 +17,7 @@ export const AddSubChallengeButton = ({ challenge }: { challenge: Challenge }) =
         size="sm"
         className="flex items-center gap-2"
       >
-        <Plus className="w-4 h-4" /> Add Challenge
+        <Plus className="w-4 h-4" /> Add Sub Challenge
       </Button>
       
       <Modal 
