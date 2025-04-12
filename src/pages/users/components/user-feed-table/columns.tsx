@@ -1,9 +1,9 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { Employee } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
+import { User } from '@/types/users';
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -36,7 +36,7 @@ export const columns: ColumnDef<Employee>[] = [
     header: 'EMAIL'
   },
   {
-    accessorKey: 'job',
+    accessorKey: 'age',
     header: 'COMPANY'
   },
   {
