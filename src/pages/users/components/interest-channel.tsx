@@ -14,7 +14,7 @@ const InterestChannel = ({ title }: { title: string }) => {
   const { data } = useGetUsers(offset, pageLimit, country);
   const users = data?.users;
   console.log('users', users);
-  const totalUsers = data?.total_users; //1000
+  const totalUsers = data?.users.length || 1000; //1000
 
   return (
     <div className="flex w-full flex-col rounded-t-3xl bg-background shadow-xl xl:m-7 ">
